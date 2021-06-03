@@ -1,44 +1,18 @@
 package co.com.sofka.dto;
 
 import co.com.sofka.entity.Todo;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "nota")
 public class TodoDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String name;
     private boolean completed;
-
-    public TodoDTO(Long id, String name, boolean completed, Long idGroup) {
-        this.id = id;
-        this.name = name;
-        this.completed = completed;
-        this.listTodoDTO.setId(idGroup);
-    }
-
-    public TodoDTO() {
-
-    }
-
-
-    @JoinColumn(name = "id_group")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private ListTodoDTO listTodoDTO;
 
-    public ListTodoDTO getListTodoDTO() {
-        return listTodoDTO;
+    public TodoDTO() {
     }
 
-    public void setListTodoDTO(ListTodoDTO listTodoDTO) {
-        this.listTodoDTO = listTodoDTO;
-    }
 
     public Long getId() {
         return id;
@@ -64,12 +38,27 @@ public class TodoDTO {
         this.completed = completed;
     }
 
-    public static Todo toEntityTodo(TodoDTO todoDTO) {
+    public TodoDTO(Long id, String name, boolean completed, ListTodoDTO listTodoDTO) {
+        this.id = id;
+        this.name = name;
+        this.completed = completed;
+        this.listTodoDTO = listTodoDTO;
+    }
+
+    public co.com.sofka.dto.ListTodoDTO getListTodoDTO() {
+        return listTodoDTO;
+    }
+
+    public void setListTodoDTO(co.com.sofka.dto.ListTodoDTO listTodoDTO) {
+        this.listTodoDTO = listTodoDTO;
+    }
+
+    public Todo toTodoDTO(TodoDTO todoDTO) {
         return new Todo(
                 todoDTO.id,
                 todoDTO.name,
                 todoDTO.completed,
-                todoDTO.getListTodoDTO().getId()
+                listTodoDTO.toListTodoDTO(todoDTO.getListTodoDTO())
         );
     }
 }

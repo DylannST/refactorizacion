@@ -1,6 +1,6 @@
 package co.com.sofka.controller;
 
-import co.com.sofka.entity.ListTodo;
+import co.com.sofka.dto.ListTodoDTO;
 import co.com.sofka.service.ListTodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,19 +12,19 @@ public class ListTodoController {
     private ListTodoService listTodoService;
 
     @GetMapping(value = "api/ListTodos")
-    public Iterable<ListTodo> list() {
+    public Iterable<ListTodoDTO> list() {
         return listTodoService.list();
     }
 
     @PostMapping(value = "api/ListTodos")
-    public ListTodo save(@RequestBody ListTodo listTodo) {
-        return listTodoService.save(listTodo);
+    public ListTodoDTO save(@RequestBody ListTodoDTO listTodoDTO) {
+        return listTodoService.save(listTodoDTO);
     }
 
     @PutMapping(value = "api/ListTodos")
-    public ListTodo update(@RequestBody ListTodo listTodo) {
-        if (listTodo.getId() != null) {
-            return listTodoService.save(listTodo);
+    public ListTodoDTO update(@RequestBody ListTodoDTO listTodoDTO) {
+        if (listTodoDTO.getId() != null) {
+            return listTodoService.save(listTodoDTO);
         }
         throw new RuntimeException("No existe el id para actualziar");
     }
@@ -35,7 +35,7 @@ public class ListTodoController {
     }
 
     @GetMapping(value = "api/{id}/ListTodos")
-    public ListTodo get(@PathVariable("id") Long id) {
+    public ListTodoDTO get(@PathVariable("id") Long id) {
         return listTodoService.get(id);
     }
 }

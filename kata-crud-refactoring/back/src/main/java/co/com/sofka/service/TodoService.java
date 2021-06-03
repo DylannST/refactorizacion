@@ -6,6 +6,7 @@ import co.com.sofka.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,28 +14,28 @@ public class TodoService {
 
     @Autowired
     private TodoRepository repository;
-    private TodoDTO dto;
-    private List<Todo> todo;
-    private Todo todoTemporal;
+    private Todo dto = new Todo();
+    private List<TodoDTO> todoDTO = new ArrayList<>();
+    private TodoDTO todoDTOTemporal = new TodoDTO();
 
 
-    public Iterable<Todo> list() {
-        Iterable<TodoDTO> dtoAuxiliar = repository.findAll();
-        dtoAuxiliar.forEach(x -> todo.add(dto.toEntityTodo(x)));
-        return todo;
+    public Iterable<TodoDTO> list() {
+        Iterable<Todo> dtoAuxiliar = repository.findAll();
+        dtoAuxiliar.forEach(x -> todoDTO.add(dto.toEntityTodo(x)));
+        return todoDTO;
     }
 
-    public Todo save(Todo todo) {
-        repository.insert(todo.getName(), todo.isCompleted(), todo.getId());
-        return todo;
+    public TodoDTO save(TodoDTO todoDTO) {
+        repository.save(todoDTO.toTodoDTO(todoDTO));
+        return todoDTO;
     }
 
 
     public void delete(Long id) {
-        repository.delete(todoTemporal.toTodoDTO(get(id)));
+        repository.deleteById(id);
     }
 
-    public Todo get(Long id) {
+    public TodoDTO get(Long id) {
         return dto.toEntityTodo(repository.findById(id).orElseThrow());
     }
 

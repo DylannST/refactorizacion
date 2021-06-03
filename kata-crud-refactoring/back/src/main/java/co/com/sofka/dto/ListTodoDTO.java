@@ -2,14 +2,9 @@ package co.com.sofka.dto;
 
 import co.com.sofka.entity.ListTodo;
 
-import javax.persistence.*;
-import java.util.Set;
 
-@Entity
-@Table(name = "lista")
 public class ListTodoDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     private String name;
 
@@ -21,10 +16,6 @@ public class ListTodoDTO {
     public ListTodoDTO() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
@@ -33,7 +24,11 @@ public class ListTodoDTO {
         return name;
     }
 
-    public static ListTodo toEntityListTodo(ListTodoDTO listTodoDTO) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ListTodo toListTodoDTO(ListTodoDTO listTodoDTO) {
         return new ListTodo(
                 listTodoDTO.id,
                 listTodoDTO.name
