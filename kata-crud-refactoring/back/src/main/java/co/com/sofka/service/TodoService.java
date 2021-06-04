@@ -24,8 +24,9 @@ public class TodoService {
     }
 
     public TodoDTO save(TodoDTO todoDTO) {
-        repository.save(todoDTO.toTodoDTO(todoDTO));
-        return todoDTO;
+       // repository.save(todoDTO.toTodoDTO(todoDTO));
+        return Todo.toEntityTodo(repository.save(todoDTO.toTodoDTO(todoDTO)));
+        //return todoDTO;
     }
 
 

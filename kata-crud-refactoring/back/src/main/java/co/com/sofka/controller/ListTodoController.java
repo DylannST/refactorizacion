@@ -34,9 +34,9 @@ public class ListTodoController {
         listTodoService.delete(id);
     }
 
-//    @GetMapping(value = "api/{id}/ListTodos")
-//    public ListTodoDTO get(@PathVariable("id") Long id) {
-//        return listTodoService.get(id);
-//    }
+    @GetMapping(value = "api/{id}/ListTodos")
+    public ListTodoDTO get(@PathVariable("id") Long id) {
+        return listTodoService.get(id);
+    }
 
 }

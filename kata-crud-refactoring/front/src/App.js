@@ -78,7 +78,7 @@ const Form = () => {
 }
 
 
-const List = () => {
+const List = () => { 
   const { dispatch, state: { todo } } = useContext(Store);
   const currentList = todo.list;
 
