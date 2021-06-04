@@ -20,7 +20,7 @@ public class ListTodo {
     public ListTodo() {
     }
 
-    public  ListTodoDTO toEntityListTodo(ListTodo listTodo) {
+    public static ListTodoDTO toEntityListTodo(ListTodo listTodo) {
         return new ListTodoDTO(
                 listTodo.id,
                 listTodo.name

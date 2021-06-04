@@ -13,25 +13,23 @@ import java.util.List;
 public class ListTodoService {
     @Autowired
     private ListTodoRepository repository;
-    private ListTodo dto = new ListTodo();
-    private List<ListTodoDTO> ListTodoDTO = new ArrayList<>();
-    private ListTodoDTO listTodoDTOTemporal = new ListTodoDTO();
 
     public Iterable<ListTodoDTO> list() {
+        List<ListTodoDTO> ListTodoDTO = new ArrayList<>();
         Iterable<ListTodo> dtoAuxiliar = repository.findAll();
-        dtoAuxiliar.forEach(x -> ListTodoDTO.add(dto.toEntityListTodo(x)));
+        dtoAuxiliar.forEach(x -> ListTodoDTO.add(ListTodo.toEntityListTodo(x)));
         return ListTodoDTO;
     }
 
     public ListTodoDTO save(ListTodoDTO listTodoDTO) {
-        return dto.toEntityListTodo(repository.save(listTodoDTO.toListTodoDTO(listTodoDTO)));
+        return ListTodo.toEntityListTodo(repository.save(listTodoDTO.toListTodoDTO(listTodoDTO)));
     }
 
     public void delete(Long id) {
-        repository.delete(listTodoDTOTemporal.toListTodoDTO(get(id)));
+        repository.deleteById(id);
     }
 
     public ListTodoDTO get(Long id) {
-        return dto.toEntityListTodo(repository.findById(id).orElseThrow());
+        return ListTodo.toEntityListTodo(repository.findById(id).orElseThrow());
     }
 }

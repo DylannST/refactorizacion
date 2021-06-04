@@ -14,14 +14,12 @@ public class TodoService {
 
     @Autowired
     private TodoRepository repository;
-    private Todo dto = new Todo();
-    private List<TodoDTO> todoDTO = new ArrayList<>();
-    private TodoDTO todoDTOTemporal = new TodoDTO();
 
 
     public Iterable<TodoDTO> list() {
+        List<TodoDTO> todoDTO = new ArrayList<>();
         Iterable<Todo> dtoAuxiliar = repository.findAll();
-        dtoAuxiliar.forEach(x -> todoDTO.add(dto.toEntityTodo(x)));
+        dtoAuxiliar.forEach(x -> todoDTO.add(Todo.toEntityTodo(x)));
         return todoDTO;
     }
 
@@ -36,7 +34,13 @@ public class TodoService {
     }
 
     public TodoDTO get(Long id) {
-        return dto.toEntityTodo(repository.findById(id).orElseThrow());
+        return Todo.toEntityTodo(repository.findById(id).orElseThrow());
     }
 
+    public Iterable<TodoDTO> listByIdFk(Long id) {
+        List<TodoDTO> todoDTON = new ArrayList<>();
+        Iterable<Todo> dtoAuxiliar = repository.findByFkId(id);
+        dtoAuxiliar.forEach(x -> todoDTON.add(Todo.toEntityTodo(x)));
+        return todoDTON;
+    }
 }

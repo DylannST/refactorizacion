@@ -40,4 +40,9 @@ public class TodoController {
         return service.get(id);
     }
 
+    @GetMapping(value = "api/{id}/todofk")
+    public Iterable<TodoDTO> listByIdFk(@PathVariable("id") Long id) {
+        return service.listByIdFk(id);
+    }
+
 }
