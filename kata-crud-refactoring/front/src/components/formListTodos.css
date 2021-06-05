@@ -1,0 +1,11 @@
+
+.divBorder{
+
+    border: #ff0000 1px solid;
+    padding: 10px
+}
+
+.divBorder>p{
+    display: inline-block;
+    padding-right: 10px;
+}
