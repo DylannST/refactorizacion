@@ -1,16 +1,15 @@
+import { size } from "lodash";
 import React, {
   useContext,
-  useReducer,
-  useEffect,
-  useRef,
-  useState,
-  createContext,
-} from "react";
 
+  useEffect,
+  useState
+} from "react";
 import "./formListTodos.css";
-import Store from "./Store"
-import FormTodo from "./FormTodo"
-import ListTodo from "./ListTodo"
+import FormTodo from "./FormTodo";
+import ListTodo from "./ListTodo";
+import Store from "./Store";
+
 
 
 
@@ -39,16 +38,18 @@ const FormListTodos = () => {
       })
   }, [dispatch]);
 
+  const [change, setChange] = useState(false)
 // <ListTodo list={valor}/>
   return (
     <div>
-      {list.todoLists.map((valor) => (
+      {list.todoLists.map((valor, index) => (
          <div key={valor.id} className="divBorder">
          <p>{valor.name}</p>
          <button onClick={() => onDelete(valor.id)}>Eliminar</button>
          <div>  
          </div>
-        <FormTodo list={valor}/>
+        <FormTodo list={valor} index={index} setChange={setChange} change={change}/>
+        <ListTodo idListTodo={valor.id} index={index} change={change} sizes={size(list.todoLists)}/>
        
        </div>         
       ))}

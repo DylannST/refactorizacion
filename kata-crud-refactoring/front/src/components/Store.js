@@ -6,7 +6,7 @@ const initialState = {
   },
   todo: {
     component: [],
-    item: {},
+    item: [],
   },
 };
 const Store = createContext(initialState);
@@ -15,21 +15,22 @@ export function reducer(state,action) {
   switch (action.type) {
     case "update-item":
       const todoUpItem = state.todo;
-      const listUpdateEdit = todoUpItem.list.map((item) => {
-        if (item.id === action.listComplete.id) {
-          return action.listComplete;
+      const listUpdateEdit = todoUpItem.item.map((item) => {
+        if (item.id === action.item.id) {
+          return action.item;
         }
         return item;
       });
-      todoUpItem.list = listUpdateEdit;
+      todoUpItem.component = listUpdateEdit;
       todoUpItem.item = {};
       return { ...state, todo: todoUpItem };
     case "delete-item":
+      console.log(action)
       const todoUpDelete = state.todo;
-      const listUpdate = todoUpDelete.list.filter((item) => {
+      const listUpdate = todoUpDelete.item.filter((item) => {
         return item.id !== action.id;
       });
-      todoUpDelete.list = listUpdate;
+      todoUpDelete.item = listUpdate;
       return { ...state, todo: todoUpDelete };
     case "add-list":
       const todoUpList = state.todo;
@@ -40,9 +41,12 @@ export function reducer(state,action) {
       todoUpEdit.item = action.item;
       return { ...state, todo: todoUpEdit };
     case "add-item":
-      const todoUp = state.todo.list;
+      const todoUp = state.todo.component;
+      const todoItem = state.todo.item;
       todoUp.push(action.item);
-      return { ...state, todo: { list: todoUp, item: {} } };
+      todoItem.push(action.item)
+      
+      return { ...state, todo: { component: todoUp, item: todoItem} };
     case "add-item-group":
       const listsUP = state.list.todoLists;
       listsUP.push(action.todoLists);
@@ -54,7 +58,11 @@ export function reducer(state,action) {
       return { ...state, list: { todoLists: listsUPDelete } };
     case "post-list-group":
       return { ...state, list: { todoLists: action.todoLists } };
-    default:
+      case "get-todos-by-id":
+        const listTodos = state.todo.item;
+        listTodos.push(action.listTodo);
+        return { ...state, todo: { component: [], item: listTodos } };
+      default:
       return state;
   }
 }
